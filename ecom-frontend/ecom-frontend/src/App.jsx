@@ -1,9 +1,14 @@
 import { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+    BrowserRouter,
+    Routes,
+    Route
+} from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
+import AddProduct from "./pages/AddProduct";
 
 import "./App.css";
 
@@ -37,56 +42,62 @@ function ComingSoon({ title }) {
         </main>
 
     );
+
 }
 
 
 function App() {
 
-    // Controls dark/light theme
-    const [darkMode, setDarkMode] = useState(false);
+    const [darkMode, setDarkMode] =
+        useState(false);
 
 
-    // Stores products added to cart
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] =
+        useState([]);
 
 
-    // Add product to cart
+    // ==========================================
+    // ADD TO CART
+    // ==========================================
+
     const addToCart = (product) => {
 
         setCart((previousCart) => {
 
-            // Check whether product already exists
-            const existingProduct = previousCart.find(
-                (item) => item.id === product.id
-            );
+            const existingProduct =
+                previousCart.find(
+                    (item) =>
+                        item.id === product.id
+                );
 
 
-            // If product already exists,
-            // increase its cart quantity
             if (existingProduct) {
 
-                return previousCart.map((item) =>
+                return previousCart.map(
+                    (item) =>
 
-                    item.id === product.id
-                        ? {
-                            ...item,
-                            cartQuantity: item.cartQuantity + 1
-                        }
-                        : item
+                        item.id === product.id
+                            ? {
+                                ...item,
+                                cartQuantity:
+                                    item.cartQuantity + 1
+                            }
+                            : item
 
                 );
 
             }
 
 
-            // If product is new,
-            // add it to the cart
             return [
+
                 ...previousCart,
+
                 {
                     ...product,
                     cartQuantity: 1
                 }
+
             ];
 
         });
@@ -98,9 +109,15 @@ function App() {
 
         <BrowserRouter>
 
-            <div className={darkMode ? "app dark" : "app"}>
+            <div
+                className={
+                    darkMode
+                        ? "app dark"
+                        : "app"
+                }
+            >
 
-                {/* Navbar */}
+
                 <Navbar
                     darkMode={darkMode}
                     setDarkMode={setDarkMode}
@@ -108,63 +125,87 @@ function App() {
                 />
 
 
-               <Routes>
-
-    {/* Home */}
-    <Route
-        path="/"
-        element={
-            <Home
-                addToCart={addToCart}
-            />
-        }
-    />
+                <Routes>
 
 
-    {/* Product details */}
-    <Route
-        path="/product/:id"
-        element={
-            <ProductDetails
-                addToCart={addToCart}
-            />
-        }
-    />
+                    {/* HOME */}
+
+                    <Route
+                        path="/"
+                        element={
+                            <Home
+                                addToCart={addToCart}
+                            />
+                        }
+                    />
 
 
-    {/* Add Product */}
-    <Route
-        path="/add-product"
-        element={
-            <ComingSoon title="Add Product" />
-        }
-    />
+                    {/* PRODUCT DETAILS */}
+
+                    <Route
+                        path="/product/:id"
+                        element={
+                            <ProductDetails
+                                addToCart={addToCart}
+                            />
+                        }
+                    />
 
 
-    {/* Categories */}
-    <Route
-        path="/categories"
-        element={
-            <ComingSoon title="Categories" />
-        }
-    />
+                    {/* ADD PRODUCT */}
+
+                    <Route
+                        path="/add-product"
+                        element={
+                            <AddProduct />
+                        }
+                    />
 
 
-    {/* Cart */}
-    <Route
-        path="/cart"
-        element={
-            <ComingSoon title="Shopping Cart" />
-        }
-    />
+                    {/* CATEGORIES */}
 
-</Routes>
+                    <Route
+                        path="/categories"
+                        element={
+                            <ComingSoon
+                                title="Categories"
+                            />
+                        }
+                    />
+
+
+                    {/* CART */}
+
+                    <Route
+                        path="/cart"
+                        element={
+                            <ComingSoon
+                                title="Shopping Cart"
+                            />
+                        }
+                    />
+
+
+                    {/* UPDATE */}
+
+                    <Route
+                        path="/product/:id/update"
+                        element={
+                            <ComingSoon
+                                title="Update Product"
+                            />
+                        }
+                    />
+
+
+                </Routes>
 
             </div>
 
         </BrowserRouter>
 
     );
+
 }
 
 

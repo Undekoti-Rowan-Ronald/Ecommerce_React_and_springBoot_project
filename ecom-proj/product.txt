@@ -1,0 +1,10 @@
+id -primary key
+name
+desc
+brand
+price-int
+categoty-
+release data-data
+available - boolen
+quantity- int
+image

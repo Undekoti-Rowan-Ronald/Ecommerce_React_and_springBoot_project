@@ -90,4 +90,10 @@ public ResponseEntity<String>updateProduct(@PathVariable int id,@RequestPart Pro
              else {return new ResponseEntity<>("product not found",HttpStatus.BAD_GATEWAY);}
 
 }
+@GetMapping("/product/search")
+public ResponseEntity<List<Product>>searchProduct(@RequestParam String keyword){
+    System.out.println("searching with"+" "+keyword);
+    List<Product>products=service.searchProduct(keyword);
+    return new ResponseEntity<>(products,HttpStatus.OK);
+}
 }

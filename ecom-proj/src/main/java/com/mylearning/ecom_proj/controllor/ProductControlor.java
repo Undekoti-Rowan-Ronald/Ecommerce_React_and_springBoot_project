@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.parser.Entity;
+import java.io.IOException;
 import java.util.List;
 //used to merge fronted and backend port ie cross platform ,front and backend port number will be different because of security reasons
 @CrossOrigin
@@ -63,5 +65,29 @@ public ResponseEntity<byte[]>getImageByProductId(@PathVariable int productId){
     return ResponseEntity.ok().contentType(MediaType.valueOf(product.getImageType()))
                              .body(imageFile);
 }
+@PutMapping("/product/{id}")
+public ResponseEntity<String>updateProduct(@PathVariable int id,@RequestPart Product product,
+                                           @RequestPart(required = false)  MultipartFile imageFile){
 
+    Product product1 = null;
+    try {
+        product1 = service.updateProduct(id,product,imageFile);
+    } catch (IOException e) {
+        return new ResponseEntity<>("failed to update",HttpStatus.BAD_GATEWAY);
+    }
+    if (product1 !=null)
+        return new ResponseEntity<>("updated",HttpStatus.OK);
+    else
+        return new ResponseEntity<>("failed to update",HttpStatus.BAD_GATEWAY);
+}
+
+@DeleteMapping("/product/{id}")
+    public ResponseEntity<String>deleteProduct(@PathVariable int id ){
+    Product product = service.getProductById(id);
+             if(product != null){
+                    service.deleteProduct(id);
+                        return new ResponseEntity<>("deleted",HttpStatus.OK);}
+             else {return new ResponseEntity<>("product not found",HttpStatus.BAD_GATEWAY);}
+
+}
 }

@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import AddProduct from "./pages/AddProduct";
+import UpdateProduct from "./pages/UpdateProduct";
 
 import "./App.css";
 
@@ -189,13 +190,9 @@ function App() {
                     {/* UPDATE */}
 
                     <Route
-                        path="/product/:id/update"
-                        element={
-                            <ComingSoon
-                                title="Update Product"
-                            />
-                        }
-                    />
+  path="/product/:id/update"
+  element={<UpdateProduct />}
+/>
 
 
                 </Routes>
